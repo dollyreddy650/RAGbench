@@ -1,0 +1,33 @@
+#Dataset Link
+
+**RAGBench on Hugging Face**:  
+🔗 https://huggingface.co/datasets/rungalileo/ragbench
+
+---
+
+# Dataset Description
+
+RAGBench is a **large-scale benchmark dataset** specifically designed for training and evaluating Retrieval-Augmented Generation (RAG) systems.
+
+# Key Features
+
+- 100,000+ examples across **five industry-specific domains**:
+  -  Biomedical Research
+  -  Legal
+  -  General Knowledge
+  -  Customer Support
+  -  Finance
+
+- Supports various RAG task types
+- Annotated with **TRACe evaluation metrics**:
+  - Context Relevance
+  - Context Utilization
+  - Answer Faithfulness (Adherence)
+  - Answer Completeness
+
+- **Real-world origin**: Sourced from user manuals, research papers, financial reports, etc.
+
+This makes the dataset **practically relevant and comprehensive** for assessing RAG system performance.
+
+
+  
