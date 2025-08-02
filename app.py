@@ -1,20 +1,22 @@
-import gradio as gr
-from rgb_evaluation.evaluate import run_evaluation  # example
+# app.py
 
-def evaluate_model(dataset, model_name):
-    # dummy interface — adapt this to call your real logic
-    result = run_evaluation(dataset, model_name)
-    return result
+import gradio as gr
+from ragbench_eval import evaluate_model
+
+def run_eval(dataset_path, model_name, api_key):
+    results = evaluate_model(dataset_path, model_name, api_key)
+    return "\n\n".join([f"Q: {r['question']}\nA: {r['generated']}" for r in results[:3]])
 
 iface = gr.Interface(
-    fn=evaluate_model,
+    fn=run_eval,
     inputs=[
-        gr.Dropdown(choices=["en_refine.json", "en_int.json", "en_fact.json"], label="Dataset"),
-        gr.Textbox(label="Model Name (e.g., llama3-8b-8192)")
+        gr.Textbox(label="Dataset path (e.g., data/en_refine.json)"),
+        gr.Textbox(label="Model name (e.g., llama3-8b-8192)"),
+        gr.Textbox(label="Groq API Key", type="password")
     ],
     outputs="text",
-    title="RGB Benchmark Evaluation",
-    description="Evaluate LLMs using RGB metrics: Accuracy, Rejection, Factual Consistency"
+    title="RAGBench Evaluation",
+    description="Evaluate models on RAGBench tasks using Groq API"
 )
 
 if __name__ == "__main__":
