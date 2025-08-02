@@ -1,22 +1,25 @@
 # app.py
 
 import gradio as gr
-from ragbench_eval import evaluate_model
+from evaluate_ragbench import evaluate_file
 
-def run_eval(dataset_path, model_name, api_key):
-    results = evaluate_model(dataset_path, model_name, api_key)
-    return "\n\n".join([f"Q: {r['question']}\nA: {r['generated']}" for r in results[:3]])
+def run_eval(file_obj, model_name, apikey):
+    filepath = file_obj.name
+    evaluate_file(filepath, model_name, apikey)
+    with open("evaluation_results.json", "r") as f:
+        results = f.read()
+    return results
 
 iface = gr.Interface(
     fn=run_eval,
     inputs=[
-        gr.Textbox(label="Dataset path (e.g., data/en_refine.json)"),
-        gr.Textbox(label="Model name (e.g., llama3-8b-8192)"),
-        gr.Textbox(label="Groq API Key", type="password")
+        gr.File(label="Upload RAGBench Dataset JSON"),
+        gr.Textbox(label="Model Name (e.g., llama3-8b-8192)"),
+        gr.Textbox(label="API Key", type="password")
     ],
     outputs="text",
     title="RAGBench Evaluation",
-    description="Evaluate models on RAGBench tasks using Groq API"
+    description="Run RAGBench metrics (Adherence, Relevance, Utilization, Completeness)"
 )
 
 if __name__ == "__main__":
